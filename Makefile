@@ -16,7 +16,7 @@ LIBS =
 
 AR := $(HOST)-ar
 AS := $(HOST)-as
-CC := $(HOST)-gcc --sysroot=$(shell pwd)/sysroot -isystem=$(INCLUDEDIR)
+CC := $(HOST)-gcc --sysroot=$(shell pwd)/sysroot
 
 .PHONY = all clean iso koyomin release
 
