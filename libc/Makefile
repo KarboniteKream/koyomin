@@ -32,15 +32,20 @@ FREEOBJS := $(ARCH_FREEOBJS) \
 	stdio/putchar.o \
 	stdio/puts.o \
 	stdlib/abort.o \
+	stdlib/exit.o \
 	string/memcmp.o \
 	string/memcpy.o \
 	string/memmove.o \
 	string/memset.o \
 	string/strlen.o
 
-OBJS := $(FREEOBJS) $(ARCH_HOSTEDOBJS)
+HOSTEDOBJS := $(ARCH_HOSTEDOBJS)
+
+CRTOBJS = $(ARCHDIR)/crt0.o $(ARCHDIR)/crti.o $(ARCHDIR)/crtn.o
+
+OBJS := $(FREEOBJS) $(HOSTEDOBJS)
 LIBK_OBJS := $(FREEOBJS:.o=.libk.o)
-BINARIES = libc.a libk.a
+BINARIES = libc.a libk.a $(CRTOBJS)
 
 .PHONY: all clean install install-headers install-libs
 
@@ -77,5 +82,3 @@ install-headers:
 install-libs: $(BINARIES)
 	mkdir -p $(DESTDIR)$(LIBDIR)
 	cp $(BINARIES) $(DESTDIR)$(LIBDIR)
-	$(AS) $(ARCHDIR)/crt*.S -o crt0.o
-	cp crt0.o -t $(DESTDIR)$(LIBDIR)
