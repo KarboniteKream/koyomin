@@ -1,23 +1,9 @@
-HOST ?= $(shell ../config/util.sh -h)
-ARCH := $(shell ../config/util.sh -a $(HOST))
-
-CFLAGS ?= -O2 -g
-CPPFLAGS ?=
-LDFLAGS ?=
-LIBS ?=
-
-DESTDIR ?=
-PREFIX ?= /usr
-BOOTDIR ?= $(PREFIX)/boot
-INCLUDEDIR ?= $(PREFIX)/include
-
 CFLAGS := $(CFLAGS) -ffreestanding -fbuiltin -Wall -Wextra
 CPPFLAGS := $(CPPFLAGS) -D__is_kernel -Iinclude
 LDFLAGS := $(LDFLAGS)
 LIBS := $(LIBS) -nostdlib -lk -lgcc
 
 ARCHDIR := arch/$(ARCH)
-
 include $(ARCHDIR)/make.config
 
 CFLAGS := $(CFLAGS) $(KERNEL_ARCH_CFLAGS)
@@ -54,9 +40,9 @@ clean:
 install: install-headers install-kernel
 
 install-headers:
-	mkdir -p $(DESTDIR)$(INCLUDEDIR)
-	cp -RTv include $(DESTDIR)$(INCLUDEDIR)
+	mkdir -p $(SYSROOT)$(INCLUDEDIR)
+	cp -RTv include $(SYSROOT)$(INCLUDEDIR)
 
 install-kernel: kernel
-	mkdir -p $(DESTDIR)$(BOOTDIR)
-	cp kernel $(DESTDIR)$(BOOTDIR)
+	mkdir -p $(SYSROOT)$(BOOTDIR)
+	cp kernel $(SYSROOT)$(BOOTDIR)

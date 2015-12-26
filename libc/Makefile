@@ -1,15 +1,4 @@
-HOST ?= $(shell ../config/util.sh -h)
-ARCH := $(shell ../config/util.sh -a $(HOST))
-
 CFLAGS ?= -O2 -g
-CPPFLAGS ?= 
-LDFLAGS ?= 
-LIBS ?= 
-
-DESTDIR ?=
-PREFIX ?= /usr
-INCLUDEDIR ?= $(PREFIX)/include
-LIBDIR ?= $(PREFIX)/lib
 
 CFLAGS := $(CFLAGS) -Wall -Wextra
 CPPFLAGS := $(CPPFLAGS) -Iinclude
@@ -19,7 +8,6 @@ LIBK_CPPFLAGS := $(CPPFLAGS) -D__is_kernel
 LIBK_LDFLAGS := $(LIBK_LDFLAGS)
 
 ARCHDIR := arch/$(ARCH)
-
 include $(ARCHDIR)/make.config
 
 CFLAGS := $(CFLAGS) $(ARCH_CFLAGS)
@@ -41,11 +29,10 @@ FREEOBJS := $(ARCH_FREEOBJS) \
 
 HOSTEDOBJS := $(ARCH_HOSTEDOBJS)
 
-CRTOBJS = $(ARCHDIR)/crt0.o $(ARCHDIR)/crti.o $(ARCHDIR)/crtn.o
-
 OBJS := $(FREEOBJS) $(HOSTEDOBJS)
 LIBK_OBJS := $(FREEOBJS:.o=.libk.o)
-BINARIES = libc.a libk.a $(CRTOBJS)
+
+BINARIES = libc.a libk.a $(ARCHDIR)/crt0.o $(ARCHDIR)/crti.o $(ARCHDIR)/crtn.o
 
 .PHONY: all clean install install-headers install-libs
 
@@ -76,9 +63,9 @@ clean:
 install: install-headers install-libs
 
 install-headers:
-	mkdir -p $(DESTDIR)$(INCLUDEDIR)
-	cp -RTv include $(DESTDIR)$(INCLUDEDIR)
+	mkdir -p $(SYSROOT)$(INCLUDEDIR)
+	cp -RTv include $(SYSROOT)$(INCLUDEDIR)
 
 install-libs: $(BINARIES)
-	mkdir -p $(DESTDIR)$(LIBDIR)
-	cp $(BINARIES) $(DESTDIR)$(LIBDIR)
+	mkdir -p $(SYSROOT)$(LIBDIR)
+	cp $(BINARIES) $(SYSROOT)$(LIBDIR)
