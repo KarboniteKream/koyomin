@@ -77,3 +77,5 @@ install-headers:
 install-libs: $(BINARIES)
 	mkdir -p $(DESTDIR)$(LIBDIR)
 	cp $(BINARIES) $(DESTDIR)$(LIBDIR)
+	$(AS) $(ARCHDIR)/crt*.S -o crt0.o
+	cp crt0.o -t $(DESTDIR)$(LIBDIR)
