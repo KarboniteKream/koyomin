@@ -20,7 +20,7 @@ CC := $(HOST)-gcc --sysroot=$(shell pwd)/sysroot
 
 all: koyomin
 
-koyomin:
+koyomin: clean
 	mkdir -p sysroot
 	DESTDIR="$(shell pwd)/sysroot" $(MAKE) -C libc install-headers
 	DESTDIR="$(shell pwd)/sysroot" $(MAKE) -C kernel install-headers
@@ -33,7 +33,7 @@ clean:
 	rm -rfv sysroot isodir koyomin.iso
 
 iso: CFLAGS += -g0
-iso: clean koyomin
+iso: koyomin
 	mkdir -p isodir/boot/grub
 	cp sysroot/boot/kernel isodir/boot/kernel
 	cp config/grub.cfg isodir/boot/grub/grub.cfg
