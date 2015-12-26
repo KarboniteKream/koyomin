@@ -33,7 +33,7 @@ clean:
 	rm -rfv sysroot isodir koyomin.iso
 
 iso: CFLAGS += -g0
-iso: koyomin
+iso: clean koyomin
 	mkdir -p isodir/boot/grub
 	cp sysroot/boot/kernel isodir/boot/kernel
 	cp config/grub.cfg isodir/boot/grub/grub.cfg
