@@ -30,7 +30,7 @@ koyomin: clean
 iso: CFLAGS += -g0
 iso: koyomin
 	mkdir -p isodir/boot/grub
-	cp sysroot/boot/kernel isodir/boot/kernel
+	cp sysroot/boot/kernel.bin isodir/boot/kernel.bin
 	cp config/grub.cfg isodir/boot/grub/grub.cfg
 	grub-mkrescue -d /usr/lib/grub/i386-pc/ --fonts= --locales= --themes= -o koyomin.iso isodir
 

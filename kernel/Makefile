@@ -20,11 +20,11 @@ CRTN_OBJ := $(ARCHDIR)/crtn.o
 
 OBJ_LINK_LIST := $(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OBJS) $(CRTEND_OBJ) $(CRTN_OBJ)
 
-.PHONY: all kernel clean install install-headers install-kernel
+.PHONY: all kernel.bin clean install install-headers install-kernel
 
-all: kernel
+all: kernel.bin
 
-kernel: $(OBJ_LINK_LIST) $(ARCHDIR)/linker.ld
+kernel.bin: $(OBJ_LINK_LIST) $(ARCHDIR)/linker.ld
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(OBJ_LINK_LIST) $(LDFLAGS) $(LIBS)
 
 %.o: %.c
@@ -34,7 +34,7 @@ kernel: $(OBJ_LINK_LIST) $(ARCHDIR)/linker.ld
 	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 clean:
-	rm -f kernel $(OBJS) $(CRTI_OBJ) $(OBJS) $(CRTN_OBJ)
+	rm -f kernel.bin $(OBJS) $(CRTI_OBJ) $(OBJS) $(CRTN_OBJ)
 	find . -type f -name "*.o" -delete
 
 install: install-headers install-kernel
@@ -43,6 +43,6 @@ install-headers:
 	mkdir -p $(SYSROOT)$(INCLUDEDIR)
 	cp -RTv include $(SYSROOT)$(INCLUDEDIR)
 
-install-kernel: kernel
+install-kernel: kernel.bin
 	mkdir -p $(SYSROOT)$(BOOTDIR)
-	cp kernel $(SYSROOT)$(BOOTDIR)
+	cp kernel.bin $(SYSROOT)$(BOOTDIR)
