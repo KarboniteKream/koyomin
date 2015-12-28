@@ -1,6 +1,6 @@
 #include <string.h>
 
-void* memmove(void *dest, const void *src, size_t count)
+void *memmove(void *dest, const void *src, size_t count)
 {
 	unsigned char *d = (unsigned char *)dest;
 	const unsigned char *s = (const unsigned char *)src;
@@ -16,7 +16,7 @@ void* memmove(void *dest, const void *src, size_t count)
 	{
 		for(size_t i = count; i != 0; i--)
 		{
-			d[i-1] = s[i-1];
+			d[i - 1] = s[i - 1];
 		}
 	}
 

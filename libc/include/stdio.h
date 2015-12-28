@@ -16,7 +16,7 @@ extern FILE *stderr;
 
 int fclose(FILE *);
 int fflush(FILE *);
-FILE* fopen(const char *, const char *);
+FILE *fopen(const char *, const char *);
 int fprintf(FILE *, const char *, ...);
 size_t fread(void *, size_t, size_t, FILE *);
 int fseek(FILE *, long, int);
