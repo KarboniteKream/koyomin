@@ -11,6 +11,33 @@ static void print(const char *data, size_t length)
 	}
 }
 
+static void number(int i, char s[])
+{
+	char *p = s;
+
+	if(i < 0)
+	{
+		*p++ = '-';
+		i = -i;
+	}
+
+	int temp = i;
+
+	do
+	{
+		p++;
+		temp /= 10;
+	} while(temp != 0);
+
+	*p = '\0';
+
+	do
+	{
+		*--p = (i % 10) + 48;
+		i /= 10;
+	} while(i != 0);
+}
+
 int printf(const char *restrict format, ...)
 {
 	va_list parameters;
@@ -18,54 +45,50 @@ int printf(const char *restrict format, ...)
 
 	int written = 0;
 	size_t amount;
-	bool rejected_bad_specifier = false;
 
 	while(*format != '\0')
 	{
 		if(*format != '%')
 		{
-		print_c:
 			amount = 1;
-			while(format[amount] && format[amount] != '%')
+
+			while(format[amount] != '\0' && format[amount] != '%')
 			{
 				amount++;
 			}
+
 			print(format, amount);
 			format += amount;
 			written += amount;
-			continue;
-		}
-
-		const char *format_begun_at = format;
-
-		if(*(++format) == '%')
-		{
-			goto print_c;
-		}
-
-		if(rejected_bad_specifier == true)
-		{
-		incomprehensible_conversion:
-			rejected_bad_specifier = true;
-			format = format_begun_at;
-			goto print_c;
-		}
-
-		if(*format == 'c')
-		{
-			format++;
-			char c = (char)va_arg(parameters, int); // char promotes to int.
-			print(&c, sizeof(c));
-		}
-		else if(*format == 's')
-		{
-			format++;
-			const char *s = va_arg(parameters, const char *);
-			print(s, strlen(s));
 		}
 		else
 		{
-			goto incomprehensible_conversion;
+			format++;
+
+			if(*format == 'c')
+			{
+				format++;
+				char c = (char)va_arg(parameters, int);
+				print(&c, sizeof(c));
+				written++;
+			}
+			else if(*format == 'd')
+			{
+				format++;
+				char s[11];
+				number(va_arg(parameters, int), s);
+				size_t length = strlen(s);
+				print(s, length);
+				written += length;
+			}
+			else if(*format == 's')
+			{
+				format++;
+				const char *s = va_arg(parameters, const char *);
+				size_t length = strlen(s);
+				print(s, length);
+				written += length;
+			}
 		}
 	}
 
