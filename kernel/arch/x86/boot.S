@@ -27,6 +27,29 @@ _start:
 	# such as floating point instructions are not available yet.
 	movl $stack_top, %esp
 
+	# Load the Global Descriptor Table.
+	push %ax
+	pushl %eax
+	subl $6, %esp
+	movw gdt_size, %ax
+	movw %ax, 0(%esp)
+	movl $gdt, %eax
+	movl %eax, 2(%esp)
+	lgdt 0(%esp)
+	addl $6, %esp
+	popl %eax
+
+	# Reload data segment registers.
+	movw $0x10, %ax
+	movw %ax, %ds
+	movw %ax, %es
+	movw %ax, %fs
+	movw %ax, %gs
+	movw %ax, %ss
+	ljmp $0x08, $_reload
+_reload:
+	pop %ax
+
 	# Initialize the core kernel before running the global constructors.
 	call kernel_early
 
