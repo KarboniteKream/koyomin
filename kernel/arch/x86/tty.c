@@ -56,9 +56,7 @@ void tty_set_cursor(uint8_t row, uint8_t col)
 void tty_putchar(char c)
 {
 	if(c != '\n')
-	{
 		tty_putentryat(c, tty_color, tty_column, tty_row);
-	}
 
 	if(c == '\n' || ++tty_column == VGA_WIDTH)
 	{
@@ -69,9 +67,7 @@ void tty_putchar(char c)
 			tty_row--;
 			memmove(tty_buffer, tty_buffer + VGA_WIDTH, 2 * VGA_WIDTH * (VGA_HEIGHT - 1));
 			for(size_t x = 0; x < VGA_WIDTH; x++)
-			{
 				tty_buffer[(VGA_HEIGHT - 1) * VGA_WIDTH + x] = make_vgaentry(' ', tty_color);
-			}
 		}
 	}
 
@@ -81,9 +77,7 @@ void tty_putchar(char c)
 void tty_write(const char *data, size_t size)
 {
 	for(size_t i = 0; i < size; i++)
-	{
 		tty_putchar(data[i]);
-	}
 }
 
 void tty_writestring(const char *data)
