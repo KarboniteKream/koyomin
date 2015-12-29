@@ -64,10 +64,12 @@ void tty_putchar(char c)
 
 		if(++tty_row == VGA_HEIGHT)
 		{
-			tty_row--;
-			memmove(tty_buffer, tty_buffer + VGA_WIDTH, 2 * VGA_WIDTH * (VGA_HEIGHT - 1));
+			const uint16_t *src = (const uint16_t *)(tty_buffer + VGA_WIDTH);
+			size_t idx = VGA_WIDTH * --tty_row;
+			for(size_t i = 0; i < idx; i++)
+				tty_buffer[i] = src[i];
 			for(size_t x = 0; x < VGA_WIDTH; x++)
-				tty_buffer[(VGA_HEIGHT - 1) * VGA_WIDTH + x] = make_vgaentry(' ', tty_color);
+				tty_buffer[idx + x] = make_vgaentry(' ', tty_color);
 		}
 	}
 
