@@ -22,6 +22,12 @@ typedef unsigned long long uint64_t;
 #endif
 
 #if __WORDSIZE == 64
+typedef unsigned long uintptr_t;
+#else
+typedef unsigned int uintptr_t;
+#endif
+
+#if __WORDSIZE == 64
 typedef long intmax_t;
 typedef unsigned long uintmax_t;
 #else

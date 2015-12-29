@@ -27,9 +27,12 @@ _start:
 	# such as floating point instructions are not available yet.
 	movl $stack_top, %esp
 
+	# Push memory map on stack.
+	push %ebx
+	push %eax
+
 	# Load the Global Descriptor Table.
 	push %ax
-	pushl %eax
 	subl $6, %esp
 	movw gdt_size, %ax
 	movw %ax, 0(%esp)
@@ -37,7 +40,6 @@ _start:
 	movl %eax, 2(%esp)
 	lgdt 0(%esp)
 	addl $6, %esp
-	popl %eax
 
 	# Reload data segment registers.
 	movw $0x10, %ax
@@ -61,8 +63,8 @@ _reload:
 
 	# Hang if kernel_main unexpectedly returns.
 	cli
-	hlt
 .Lhang:
+	hlt
 	jmp .Lhang
 
 # Set the size of the _start symbol to the current location '.' minus its start.
