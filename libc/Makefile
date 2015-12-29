@@ -1,8 +1,9 @@
 CFLAGS ?= -O2 -g
 
-CFLAGS := $(CFLAGS) -Wall -Wextra
+CFLAGS := $(CFLAGS)
 CPPFLAGS := $(CPPFLAGS) -Iinclude
 LDFLAGS := $(LDFLAGS)
+
 LIBK_CFLAGS := $(CFLAGS) -ffreestanding -fbuiltin
 LIBK_CPPFLAGS := $(CPPFLAGS) -D__is_kernel
 LIBK_LDFLAGS := $(LIBK_LDFLAGS)
