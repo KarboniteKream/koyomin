@@ -4,10 +4,12 @@
 #include <stdio.h>
 
 #include <kernel/multiboot.h>
+#include <kernel/pic.h>
 #include <kernel/tty.h>
 
 void kernel_early(void)
 {
+	pic_init();
 	tty_init();
 }
 
