@@ -3,17 +3,13 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <kernel/portio.h>
 #include <kernel/vga.h>
 
 size_t tty_row;
 size_t tty_column;
 uint8_t tty_color;
 uint16_t *tty_buffer;
-
-static inline void outb(uint16_t port, uint8_t value)
-{
-	asm volatile("outb %0, %1" : : "a" (value), "Nd" (port));
-}
 
 void tty_init(void)
 {
@@ -47,10 +43,10 @@ void tty_set_cursor(uint8_t row, uint8_t col)
 {
 	uint16_t pos = (row * 80) + col;
 
-	outb(0x3D4, 0x0F);
-	outb(0x3D5, (uint8_t)(pos & 0xFF));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
+	outportb(0x3D4, 0x0F);
+	outportb(0x3D5, (uint8_t)(pos & 0xFF));
+	outportb(0x3D4, 0x0E);
+	outportb(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
 }
 
 void tty_putchar(char c)
