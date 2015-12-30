@@ -29,7 +29,6 @@ _start:
 
 	# Push memory map on stack.
 	push %ebx
-	push %eax
 
 	# Load the Global Descriptor Table.
 	push %ax

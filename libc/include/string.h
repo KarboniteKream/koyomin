@@ -2,6 +2,7 @@
 #define _STRING_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 int memcmp(const void *lhs, const void *rhs, size_t count);
 void *memcpy(void *restrict dest, const void *restrict src, size_t count);

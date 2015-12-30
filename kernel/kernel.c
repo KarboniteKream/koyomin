@@ -11,11 +11,8 @@ void kernel_early(void)
 	tty_init();
 }
 
-void kernel_main(uint32_t magic, multiboot_info_t *mbt)
+void kernel_main(multiboot_info_t *mbt)
 {
-	if(magic == MULTIBOOT_BOOTLOADER_MAGIC)
-		printf("BOOT OK! (0x2BADB002)\n");
-
 	printf("\nMemory Map -----\n");
 
 	if((mbt->flags & 0x1) == 1)

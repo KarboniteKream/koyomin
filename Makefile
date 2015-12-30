@@ -12,7 +12,7 @@ AR := $(HOST)-ar
 AS := $(HOST)-as
 CC := $(HOST)-gcc
 
-CFLAGS = -O2 -g -Wall -Wextra
+CFLAGS = -O2 -g -Wall -Wextra -pedantic
 CPPFLAGS =
 LDFLAGS =
 LIBS =
