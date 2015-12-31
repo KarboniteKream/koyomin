@@ -30,6 +30,9 @@ _start:
 	# Push memory map on stack.
 	push %ebx
 
+	# Disable interrupts.
+	cli
+
 	# Load the Global Descriptor Table.
 	push %ax
 	subl $6, %esp
@@ -53,6 +56,9 @@ _reload:
 
 	# Initialize the core kernel before running the global constructors.
 	call kernel_early
+
+	# Enable interrupts.
+	sti
 
 	# Call the global constructors.
 	call _init

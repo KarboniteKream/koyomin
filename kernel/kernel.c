@@ -1,8 +1,10 @@
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 
+#include <kernel/idt.h>
 #include <kernel/multiboot.h>
 #include <kernel/pic.h>
 #include <kernel/tty.h>
@@ -10,6 +12,7 @@
 void kernel_early(void)
 {
 	pic_init();
+	idt_init();
 	tty_init();
 }
 
@@ -35,4 +38,6 @@ void kernel_main(multiboot_info_t *mbt)
 	printf("\n");
 
 	printf("koyomin v0.0.1\n$ ");
+
+	while(true) {}
 }
